@@ -40,6 +40,30 @@ node cli/pixflow-motion.mjs render ../examples/demo.movie.yaml ../examples/demo.
 
 Detalhes e o schema do movie spec: [`skill/SKILL.md`](skill/SKILL.md).
 
+## O que o `pixflow-motion` faz sozinho (e o que não faz)
+
+Dado **imagens + um movie spec (YAML)**, ele monta o **filme cinematográfico**. Ele **não** inventa o conteúdo —
+é o **estágio final de render**, não a fábrica inteira.
+
+**Faz automaticamente** (você dá imagens + spec):
+- **Gera o depth map** de cada imagem (Depth-Anything, sem torch).
+- **Parallax 2.5D** + **movimento de câmera** (push-in, ken-burns, orbit…).
+- **Look** por cena (grade de cor, grão, vinheta, aberração, bloom).
+- **Transições** (cut/crossfade/dip-to-black).
+- **Legendas** (número/título/corpo — animação simples de fade).
+- **Trilha de áudio** se você apontar um arquivo.
+- Resolve o **Chromium** sozinho (aarch64) e exporta o **MP4** (Remotion + FFmpeg).
+
+**NÃO faz sozinho** (você traz pronto):
+- ❌ **Não gera as imagens** — você fornece os arquivos. (`cli/genimg.mjs` existe à parte; o `render` não o chama.)
+- ❌ **Não escreve o roteiro/spec** — você escreve o YAML (cenas, textos, looks, câmeras, durações).
+- ❌ **Não tem narração/TTS** — só toca um áudio se você der; não cria voz.
+- ❌ **Não tem texto cinético nem ilustração de tópico** (camadas 2 e 3) — legenda é um fade só.
+- ❌ **Não planeja** (gancho, estrutura, tópicos) nem confere se a imagem combina com o conceito.
+
+> Resumo: você entrega **imagens + o "roteiro de movimento" (spec)** → ele entrega um **vídeo com cara de cinema**.
+> Tudo que vem **antes** (ideia → roteiro → imagens → narração) é o que o **`videoprodutor`** orquestra usando as outras peças.
+
 ## Ambiente
 
 Testado em **Linux aarch64 (NVIDIA GB10 / DGX)**. Nessa arquitetura o Remotion não baixa o Chrome
