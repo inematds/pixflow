@@ -1,0 +1,16 @@
+# dependências e artefatos gerados
+skill/node_modules/
+skill/.pixflow/
+skill/public/*
+!skill/public/.gitkeep
+
+# saídas de render
+*.mp4
+*.mov
+*.prores
+
+# depth maps gerados
+*_depth.png
+
+# caches de modelo
+.cache/

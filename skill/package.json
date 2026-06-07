@@ -1,0 +1,22 @@
+{
+  "name": "pixflow-motion",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Transforma imagens estáticas em filmes cinematográficos (parallax 2.5D + efeitos) em código aberto, sem geradores de vídeo IA.",
+  "bin": {
+    "pixflow-motion": "cli/pixflow-motion.mjs"
+  },
+  "scripts": {
+    "studio": "remotion studio src/index.jsx"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^3.3.3",
+    "@remotion/cli": "4.0.270",
+    "js-yaml": "^4.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "4.0.270",
+    "sharp": "^0.33.5"
+  }
+}

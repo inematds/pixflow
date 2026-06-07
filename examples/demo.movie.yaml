@@ -1,0 +1,42 @@
+# Movie spec de demonstração — pixflow.movie/v1
+# Filme curto de 2 cenas a partir de imagens estáticas (parallax 2.5D + efeitos).
+schema: pixflow.movie/v1
+
+meta:
+  title: Demo PixFlow Motion
+  author: nmaldaner
+
+output:
+  resolution: 1280x720
+  fps: 30
+  filename: demo.mp4
+
+defaults:
+  look: cinema-dramatico
+  transition_out:
+    type: crossfade
+    duration: 0.6
+
+assets:
+  images:
+    - id: cena1
+      file: assets/cena1.png
+      prompt: "epic mountain valley at golden hour, layered depth, atmospheric haze, cinematic"
+    - id: cena2
+      file: assets/cena2.png
+      prompt: "cold blue mountain lake at dawn, deep layers, fog, cinematic"
+
+scenes:
+  - id: abertura
+    image: cena1
+    look: cinema-dramatico
+    duration: 4
+    camera: { type: push_in, intensity: 1.0, easing: ease_in_out }
+    transition_out: { type: crossfade, duration: 0.6 }
+
+  - id: revelacao
+    image: cena2
+    look: sci-fi-cyberpunk
+    duration: 4
+    camera: { type: ken_burns, intensity: 1.2, direction: right, easing: ease_out }
+    duration_mode: flexible
