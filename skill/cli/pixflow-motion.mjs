@@ -136,7 +136,8 @@ function summary(spec) {
   let total = 0;
   (spec.scenes || []).forEach((s, i) => {
     total += (s.duration || 4);
-    console.log(`  ${i + 1}. ${s.id || ''}  [${s.look || spec.defaults?.look || 'cinema'}]  ${s.camera?.type || 'push_in'}  ${s.duration || 4}s  →${s.transition_out?.type || 'cut'}`);
+    const to = s.transition_out?.type || spec.defaults?.transition_out?.type || 'cut';
+    console.log(`  ${i + 1}. ${s.id || ''}  [${s.look || spec.defaults?.look || 'cinema'}]  ${s.camera?.type || 'push_in'}  ${s.duration || 4}s  →${to}`);
   });
   console.log(`Duração ~${total.toFixed(1)}s, ${spec.scenes?.length || 0} cenas`);
 }

@@ -1,0 +1,116 @@
+schema: pixflow.movie/v1
+
+meta:
+  title: 12 Lições de Alex Hormozi
+  author: nmaldaner
+
+output:
+  resolution: 1280x720
+  fps: 30
+  filename: hormozi.mp4
+
+defaults:
+  look: cinema-dramatico
+  transition_out:
+    type: crossfade
+    duration: 0.6
+
+assets:
+  images:
+    - { id: t01, file: hormozi/01.png }
+    - { id: t02, file: hormozi/02.png }
+    - { id: t03, file: hormozi/03.png }
+    - { id: t04, file: hormozi/04.png }
+    - { id: t05, file: hormozi/05.png }
+    - { id: t06, file: hormozi/06.png }
+    - { id: t07, file: hormozi/07.png }
+    - { id: t08, file: hormozi/08.png }
+    - { id: t09, file: hormozi/09.png }
+    - { id: t10, file: hormozi/10.png }
+    - { id: t11, file: hormozi/11.png }
+    - { id: t12, file: hormozi/12.png }
+
+scenes:
+  - id: t01
+    image: t01
+    look: cinema-dramatico
+    duration: 4.5
+    camera: { type: push_in, intensity: 1.0, easing: ease_in_out }
+    caption: { number: 1, kicker: "Alex Hormozi · 12 lições", title: "Crie uma âncora cara", body: "Tenha um produto premium que você nem planeja vender — ele faz o pacote principal parecer barato." }
+
+  - id: t02
+    image: t02
+    look: sci-fi-cyberpunk
+    duration: 4.5
+    camera: { type: ken_burns, intensity: 1.1, direction: up, easing: ease_out }
+    caption: { number: 2, kicker: "Alcance", title: "Anuncie muito mais", body: "O problema raramente é o produto. É ninguém saber que você existe." }
+
+  - id: t03
+    image: t03
+    look: sonho-etereo
+    duration: 4.5
+    camera: { type: push_in, intensity: 0.9 }
+    caption: { number: 3, kicker: "Barreira zero", title: "Comece de graça", body: "Entregue o primeiro resultado sem cobrar. Remove o medo e gera prova social." }
+
+  - id: t04
+    image: t04
+    look: cinema-dramatico
+    duration: 4.5
+    camera: { type: pan, intensity: 1.0, direction: right }
+    caption: { number: 4, kicker: "Confiança", title: "Prova > promessa", body: "Não diga que é o melhor. Mostre resultados reais: prints, antes/depois, números." }
+
+  - id: t05
+    image: t05
+    look: cinema-dramatico
+    duration: 4.5
+    camera: { type: push_in, intensity: 1.1 }
+    caption: { number: 5, kicker: "Preço", title: "Suba os preços", body: "Menos 'sim', mas cada cliente vale mais — e vêm clientes melhores." }
+
+  - id: t06
+    image: t06
+    look: sci-fi-cyberpunk
+    duration: 4.5
+    camera: { type: ken_burns, intensity: 1.2, direction: down }
+    caption: { number: 6, kicker: "Funil", title: "Vendas + marketing juntos", body: "Marketing gera o lead, vendas fecha. Um funil só, sem vazar dinheiro no meio." }
+
+  - id: t07
+    image: t07
+    look: sonho-etereo
+    duration: 4.5
+    camera: { type: orbit, intensity: 0.9 }
+    caption: { number: 7, kicker: "Escuta", title: "Fale com seus clientes", body: "Eles dizem o que querem comprar, o que falta e por que cancelam." }
+
+  - id: t08
+    image: t08
+    look: acao-epico
+    duration: 4.5
+    camera: { type: push_in, intensity: 1.3, easing: ease_in_out }
+    caption: { number: 8, kicker: "Prioridade", title: "Até R$500 mil/mês: venda", body: "Não é hora de processo, cultura ou branding. É hora de vender." }
+
+  - id: t09
+    image: t09
+    look: acao-epico
+    duration: 4.5
+    camera: { type: ken_burns, intensity: 1.2, direction: up }
+    caption: { number: 9, kicker: "Escala", title: "10× no que funciona", body: "Antes de tentar algo novo, multiplique por 10 o que já converte." }
+
+  - id: t10
+    image: t10
+    look: cinema-dramatico
+    duration: 4.5
+    camera: { type: push_in, intensity: 1.1 }
+    caption: { number: 10, kicker: "Foco", title: "Foco radical", body: "Abaixo de R$1M/ano: um canal, um avatar, um produto." }
+
+  - id: t11
+    image: t11
+    look: acao-epico
+    duration: 4.5
+    camera: { type: ken_burns, intensity: 1.3, direction: up, easing: ease_out }
+    caption: { number: 11, kicker: "Coragem", title: "Enfrente o difícil", body: "O trabalho que você evita é o que te mantém estagnado." }
+
+  - id: t12
+    image: t12
+    look: sonho-etereo
+    duration: 5.0
+    camera: { type: push_in, intensity: 0.9 }
+    caption: { number: 12, kicker: "Hábito", title: "Lembrar > ensinar", body: "Você já sabe o que fazer. Revise as lições até virarem hábito." }

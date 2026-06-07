@@ -38,6 +38,7 @@ export function computeLayout(spec, fpsOverride) {
       id: sc.id || `cena_${i + 1}`,
       image: asset.file, depth: asset.depth || (asset.file ? asset.file.replace(/\.(\w+)$/, '_depth.png') : null),
       camera: sc.camera || { type: 'push_in', intensity: 1 },
+      caption: sc.caption || null,
       effects, durationFrames, fromFrame, fadeInFrames,
       transitionIn: i > 0 ? (tName || 'cut') : 'cut',
     });

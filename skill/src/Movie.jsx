@@ -1,6 +1,7 @@
 import React from 'react';
 import { AbsoluteFill, Sequence, useCurrentFrame, useVideoConfig, interpolate, Audio, staticFile } from 'remotion';
 import { ParallaxCanvas } from './ParallaxCanvas.jsx';
+import { Caption } from './Caption.jsx';
 import { computeLayout } from './layout.js';
 
 // fade de entrada (crossfade / dip_to_black) controlado dentro da Sequence (frame local)
@@ -20,6 +21,9 @@ const SceneWrapper = ({ scene }) => {
         effects={scene.effects}
         durationInFrames={scene.durationFrames}
       />
+      {scene.caption && (
+        <Caption caption={scene.caption} durationInFrames={scene.durationFrames + scene.fadeInFrames} />
+      )}
     </AbsoluteFill>
   );
 };
