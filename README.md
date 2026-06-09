@@ -73,6 +73,11 @@ sozinho — a CLI reusa um Chromium do Playwright automaticamente (ou defina `PI
 
 `pixflow` é a peça de **render em código aberto**. Complementa `mdd` (direção → IA), `video-plan-editor`
 (estratégia/beat sheet) e `promptprof` (refino de prompt). O agente `diretor-ecossistema` decide qual usar.
+
+Para as **camadas 2 e 3** (texto cinético e ilustração de tópico) que o PixFlow **não** faz, o ecossistema
+usa os [**remotion-templates**](https://github.com/inematds/remotion-templates) — par complementar perfeito
+(mesmo motor Remotion no pipeline): o PixFlow entrega o fundo cinema; os templates desenham texto/dados por
+cima. Quem costura os dois é o [`videoprodutor`](https://github.com/inematds/skill-videoprodutor).
 Comparação em [`docs/research/04-ecossistema.md`](docs/research/04-ecossistema.md); padrão de interoperação em
 [`docs/padroes/01-padrao-geral.md`](docs/padroes/01-padrao-geral.md).
 
