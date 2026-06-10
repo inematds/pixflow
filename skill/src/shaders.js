@@ -44,11 +44,22 @@ float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123
 
 vec3 sampleScene(vec2 uv) {
   // parallax 2.5D: depth ~1 = perto, ~0 = longe.
-  float d = texture2D(uDepth, clamp(uv, 0.0, 1.0)).r;
+  // anti-fantasma em 2 camadas:
+  //  (a) depth SUAVIZADO (5 taps) — transição perto→longe gradual não rasga o contorno;
+  //  (b) supressão CIENTE DE BORDA — onde o gradiente de profundidade é alto (contorno
+  //      do sujeito), o displacement cai ~85%; profundidade plena fica no céu/fundo/chão.
+  vec2 px = 3.0 / uResolution;
+  float dC = texture2D(uDepth, clamp(uv, 0.0, 1.0)).r;
+  float dR = texture2D(uDepth, clamp(uv + vec2(px.x, 0.0), 0.0, 1.0)).r;
+  float dL = texture2D(uDepth, clamp(uv - vec2(px.x, 0.0), 0.0, 1.0)).r;
+  float dU = texture2D(uDepth, clamp(uv + vec2(0.0, px.y), 0.0, 1.0)).r;
+  float dD = texture2D(uDepth, clamp(uv - vec2(0.0, px.y), 0.0, 1.0)).r;
+  float d = (dC * 2.0 + dR + dL + dU + dD) / 6.0;
+  float edge = clamp(length(vec2(dR - dL, dU - dD)) * 7.0, 0.0, 1.0);
+  float atten = 1.0 - edge * 0.85;
   // diferencial da translação (perto desloca mais) + diferencial do zoom (dolly em profundidade)
   // diferenciais contidos: acima de ~0.7 a borda de profundidade duplica o contorno ("fantasma")
-  vec2 disp = uOffset * uParallax * (d - 0.5) * 0.7
-            + (uv - 0.5) * (uZoom - 1.0) * uParallax * (d - 0.5) * 0.5;
+  vec2 disp = (uOffset * 0.7 + (uv - 0.5) * (uZoom - 1.0) * 0.5) * uParallax * (d - 0.5) * atten;
   vec2 suv = clamp(uv + disp, 0.0, 1.0);
 
   // aberração cromática proporcional ao movimento

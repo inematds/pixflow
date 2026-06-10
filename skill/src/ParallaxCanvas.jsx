@@ -40,6 +40,7 @@ export const ParallaxCanvas = ({ image, depth, camera, effects, durationInFrames
   const canvasRef = useRef(null);
   const glRef = useRef(null);
   const stateRef = useRef(null); // { program, locs, imgTex, depthTex }
+  const drawRef = useRef(() => {}); // sempre aponta pro draw() do frame corrente
   const [handle] = React.useState(() => delayRender('Carregando texturas do pixflow'));
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
@@ -84,6 +85,10 @@ export const ParallaxCanvas = ({ image, depth, camera, effects, durationInFrames
         const imgTex = makeTexture(gl, imgEl);
         const depthTex = makeTexture(gl, depthEl);
         stateRef.current = { program: prog, locs, imgTex, depthTex };
+        // CRÍTICO: desenhar JÁ, antes de liberar a captura. O delayRender segura o
+        // carregamento, mas não o redesenho — sem isto, o 1º frame da cena sai PRETO
+        // ("piscar" em toda troca, intercalado entre os workers do Remotion).
+        drawRef.current();
         continueRender(handle);
       })
       .catch((err) => { continueRender(handle); throw err; });
@@ -132,7 +137,7 @@ export const ParallaxCanvas = ({ image, depth, camera, effects, durationInFrames
   }, [frame, width, height, camera, effects, durationInFrames]);
 
   // desenha a cada frame (após o commit). preserveDrawingBuffer garante a captura.
-  useEffect(() => { draw(); }, [draw]);
+  useEffect(() => { drawRef.current = draw; draw(); }, [draw]);
 
   return <canvas ref={canvasRef} width={width} height={height} style={{ width: '100%', height: '100%' }} />;
 };
