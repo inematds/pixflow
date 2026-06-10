@@ -4,7 +4,10 @@ import { ParallaxCanvas } from './ParallaxCanvas.jsx';
 import { Caption } from './Caption.jsx';
 import { computeLayout } from './layout.js';
 
-// fade de entrada (crossfade / dip_to_black) controlado dentro da Sequence (frame local)
+// fade de entrada (crossfade) controlado dentro da Sequence (frame local).
+// IMPORTANTE: sem backgroundColor aqui — fundo preto no wrapper escurecia a cena
+// de trás durante o fade ("pulso de brilho" em toda troca). Crossfade verdadeiro:
+// a cena que entra sobe a opacidade SOBRE a anterior, sem véu preto no meio.
 const SceneWrapper = ({ scene }) => {
   const frame = useCurrentFrame();
   const f = scene.fadeInFrames;
@@ -13,7 +16,7 @@ const SceneWrapper = ({ scene }) => {
     opacity = interpolate(frame, [0, f], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   }
   return (
-    <AbsoluteFill style={{ opacity, backgroundColor: 'black' }}>
+    <AbsoluteFill style={{ opacity }}>
       <ParallaxCanvas
         image={scene.image}
         depth={scene.depth}
@@ -28,12 +31,20 @@ const SceneWrapper = ({ scene }) => {
   );
 };
 
-// overlay preto para dip_to_black: escurece no fim da cena anterior
-const DipToBlack = ({ fromFrame, durationFrames }) => (
-  <Sequence from={fromFrame} durationInFrames={durationFrames} layout="none">
-    <AbsoluteFill style={{ backgroundColor: 'black' }} />
-  </Sequence>
-);
+// overlay preto para dip_to_black: FADE real (escurece → preto → clareia),
+// não um flash preto instantâneo.
+const DipToBlack = ({ fromFrame, durationFrames }) => {
+  const frame = useCurrentFrame();
+  const local = frame - fromFrame;
+  const half = Math.max(1, Math.floor(durationFrames / 2));
+  const opacity = interpolate(local, [0, half, durationFrames], [0, 1, 0],
+    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+  return (
+    <Sequence from={fromFrame} durationInFrames={durationFrames} layout="none">
+      <AbsoluteFill style={{ backgroundColor: 'black', opacity }} />
+    </Sequence>
+  );
+};
 
 export const Movie = ({ spec }) => {
   const { fps } = useVideoConfig();

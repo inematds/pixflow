@@ -46,12 +46,13 @@ vec3 sampleScene(vec2 uv) {
   // parallax 2.5D: depth ~1 = perto, ~0 = longe.
   float d = texture2D(uDepth, clamp(uv, 0.0, 1.0)).r;
   // diferencial da translação (perto desloca mais) + diferencial do zoom (dolly em profundidade)
-  vec2 disp = uOffset * uParallax * (d - 0.5) * 2.2
-            + (uv - 0.5) * (uZoom - 1.0) * uParallax * (d - 0.5) * 1.4;
+  // diferenciais contidos: acima de ~0.7 a borda de profundidade duplica o contorno ("fantasma")
+  vec2 disp = uOffset * uParallax * (d - 0.5) * 0.7
+            + (uv - 0.5) * (uZoom - 1.0) * uParallax * (d - 0.5) * 0.5;
   vec2 suv = clamp(uv + disp, 0.0, 1.0);
 
   // aberração cromática proporcional ao movimento
-  float ca = uChroma * 0.004;
+  float ca = uChroma * 0.0012; // contido: 0.004 dobrava contornos visivelmente
   vec3 col;
   col.r = texture2D(uImage, clamp(suv + vec2(ca, 0.0), 0.0, 1.0)).r;
   col.g = texture2D(uImage, suv).g;

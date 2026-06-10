@@ -56,13 +56,13 @@ const MOVES = {
   },
   tracking: (p, k, dir) => {
     const t = 0.12 * k;
-    return { offset: [dir[0] * (p - 0.5) * t * 2, 0], zoom: fit(t), parallaxBoost: 1.6 };
+    return { offset: [dir[0] * (p - 0.5) * t * 2, 0], zoom: fit(t), parallaxBoost: 1.15 };
   },
   truck: (p, k, dir) => {
     const t = 0.11 * k;
     return {
       offset: [dir[0] * (p - 0.5) * t * 2, 0], zoom: fit(t),
-      rotate: -dir[0] * 1.0 * D2R * k * (p - 0.5) * 2, parallaxBoost: 1.8,
+      rotate: -dir[0] * 1.0 * D2R * k * (p - 0.5) * 2, parallaxBoost: 1.2,
     };
   },
 
@@ -88,7 +88,7 @@ const MOVES = {
       offset: [t * (p - 0.5) * 2, -0.045 * k * (p - 0.5) * 2],
       zoom: fit(t) + 0.30 * k * (1 - p),
       rotate: 1.0 * D2R * k * (p - 0.5) * 2,
-      parallaxBoost: 1.5,
+      parallaxBoost: 1.15,
     };
   },
 
@@ -96,7 +96,7 @@ const MOVES = {
     offset: [Math.sin(p * Math.PI * 2) * 0.07 * k, Math.cos(p * Math.PI * 2) * 0.05 * k],
     zoom: fit(0.07 * k) + 0.08 * k,
     rotate: Math.sin(p * Math.PI * 2) * 1.2 * D2R * k,
-    parallaxBoost: 1.7,
+    parallaxBoost: 1.15,
   }),
 
   float: (p, k) => ({
@@ -118,7 +118,7 @@ const MOVES = {
     // vertigo/Hitchcock: aproxima enquanto o fundo "estica" (parallax cresce muito)
     offset: [0, 0],
     zoom: 1 + 0.26 * k * p,
-    parallaxBoost: 1 + 2.6 * k * p,
+    parallaxBoost: 1 + 1.2 * k * p,
     blur: 0.004 * k * p,
   }),
 
