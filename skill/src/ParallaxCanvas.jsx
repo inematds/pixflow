@@ -72,6 +72,7 @@ export const ParallaxCanvas = ({ image, depth, camera, effects, durationInFrames
     const locs = {
       uImage: U('uImage'), uDepth: U('uDepth'), uResolution: U('uResolution'), uTime: U('uTime'),
       uOffset: U('uOffset'), uZoom: U('uZoom'), uParallax: U('uParallax'),
+      uRotate: U('uRotate'), uBlur: U('uBlur'),
       uGrain: U('uGrain'), uVignette: U('uVignette'), uChroma: U('uChroma'),
       uExposure: U('uExposure'), uSaturation: U('uSaturation'),
       uLift: U('uLift'), uGain: U('uGain'), uBloom: U('uBloom'),
@@ -115,7 +116,9 @@ export const ParallaxCanvas = ({ image, depth, camera, effects, durationInFrames
     gl.uniform1f(locs.uTime, frame * 0.137);
     gl.uniform2f(locs.uOffset, cam.offset[0], cam.offset[1]);
     gl.uniform1f(locs.uZoom, cam.zoom);
-    gl.uniform1f(locs.uParallax, e.parallax ?? 0.1);
+    gl.uniform1f(locs.uRotate, cam.rotate ?? 0);
+    gl.uniform1f(locs.uBlur, cam.blur ?? 0);
+    gl.uniform1f(locs.uParallax, (e.parallax ?? 0.1) * (cam.parallaxBoost ?? 1));
     gl.uniform1f(locs.uGrain, e.grain ?? 0);
     gl.uniform1f(locs.uVignette, e.vignette ?? 0);
     gl.uniform1f(locs.uChroma, e.chroma ?? 0);

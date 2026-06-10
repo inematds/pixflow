@@ -1,5 +1,9 @@
-// Shaders GLSL do motor pixflow-motion.
-// Parallax 2.5D por displacement de UV proporcional ao depth + pilha de efeitos cinematográficos.
+// Shaders GLSL do motor pixflow-motion — v2.
+// v2: o offset da câmera agora TRANSLADA a moldura de verdade (antes só alimentava o
+// parallax diferencial ≈0.1×, por isso "pan" mal saía do lugar). Pipeline:
+//   rotação (roll/dutch) → zoom → translação global → parallax 2.5D por profundidade
+//   (translação E zoom geram displacement diferencial — dolly com sensação de profundidade)
+//   → blur direcional (whip pan / crash zoom) → pilha de efeitos.
 
 export const VERT = `
 attribute vec2 aPos;
@@ -20,9 +24,11 @@ uniform vec2  uResolution;
 uniform float uTime;
 
 // câmera / parallax
-uniform vec2  uOffset;     // deslocamento da câmera (normalizado)
+uniform vec2  uOffset;     // translação REAL da moldura (fração do quadro)
 uniform float uZoom;       // >1 = aproxima (push-in)
+uniform float uRotate;     // roll/dutch em radianos
 uniform float uParallax;   // força do parallax 2.5D
+uniform float uBlur;       // blur direcional (whip pan / crash zoom), raio em UV
 
 // efeitos (0 = desligado)
 uniform float uGrain;
@@ -36,42 +42,66 @@ uniform float uBloom;      // glow suave nas altas luzes
 
 float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123); }
 
-vec2 zoomUv(vec2 uv, float z){ return (uv - 0.5) / z + 0.5; }
-
-void main() {
-  // 1) zoom (push-in / ken burns)
-  vec2 uv = zoomUv(vUv, uZoom);
-
-  // 2) parallax 2.5D: desloca por profundidade. depth ~1 = perto, ~0 = longe.
-  float d = texture2D(uDepth, uv).r;
-  vec2 disp = uOffset * uParallax * (d - 0.5);
+vec3 sampleScene(vec2 uv) {
+  // parallax 2.5D: depth ~1 = perto, ~0 = longe.
+  float d = texture2D(uDepth, clamp(uv, 0.0, 1.0)).r;
+  // diferencial da translação (perto desloca mais) + diferencial do zoom (dolly em profundidade)
+  vec2 disp = uOffset * uParallax * (d - 0.5) * 2.2
+            + (uv - 0.5) * (uZoom - 1.0) * uParallax * (d - 0.5) * 1.4;
   vec2 suv = clamp(uv + disp, 0.0, 1.0);
 
-  // 3) aberração cromática proporcional ao movimento
+  // aberração cromática proporcional ao movimento
   float ca = uChroma * 0.004;
   vec3 col;
   col.r = texture2D(uImage, clamp(suv + vec2(ca, 0.0), 0.0, 1.0)).r;
   col.g = texture2D(uImage, suv).g;
   col.b = texture2D(uImage, clamp(suv - vec2(ca, 0.0), 0.0, 1.0)).b;
+  return col;
+}
 
-  // 4) exposição + grade simples (lift/gain) + saturação
+void main() {
+  // 1) rotação (roll) em torno do centro, corrigindo aspecto
+  vec2 uv = vUv - 0.5;
+  float aspect = uResolution.x / max(uResolution.y, 1.0);
+  uv.x *= aspect;
+  float cs = cos(uRotate), sn = sin(uRotate);
+  uv = mat2(cs, -sn, sn, cs) * uv;
+  uv.x /= aspect;
+
+  // 2) zoom + 3) translação global da moldura
+  uv = uv / uZoom + 0.5 + uOffset;
+
+  // 4) amostra com parallax (+ blur direcional de 5 taps quando uBlur > 0)
+  vec3 col;
+  if (uBlur > 0.0005) {
+    vec2 bdir = vec2(uBlur, 0.0);
+    col = sampleScene(uv) * 0.30;
+    col += sampleScene(uv + bdir * 0.5) * 0.20;
+    col += sampleScene(uv - bdir * 0.5) * 0.20;
+    col += sampleScene(uv + bdir) * 0.15;
+    col += sampleScene(uv - bdir) * 0.15;
+  } else {
+    col = sampleScene(uv);
+  }
+
+  // 5) exposição + grade simples (lift/gain) + saturação
   col *= uExposure;
   col = col * uGain + uLift;
   float l = dot(col, vec3(0.299, 0.587, 0.114));
   col = mix(vec3(l), col, uSaturation);
 
-  // 5) bloom barato: realça altas luzes
+  // 6) bloom barato: realça altas luzes
   if (uBloom > 0.0) {
     float hi = smoothstep(0.6, 1.0, l);
     col += hi * uBloom * 0.5;
   }
 
-  // 6) vinheta
+  // 7) vinheta
   vec2 q = vUv - 0.5;
   float vig = smoothstep(0.95, 0.25, length(q) * 1.35);
   col *= mix(1.0, vig, uVignette);
 
-  // 7) grão de filme
+  // 8) grão de filme
   if (uGrain > 0.0) {
     float g = (hash(vUv * uResolution + fract(uTime)) - 0.5) * uGrain;
     col += g;
