@@ -28,9 +28,26 @@ function fit(t) { return 1 / Math.max(1 - 2 * (Math.abs(t) + 0.045), 0.4); }
 
 const D2R = Math.PI / 180;
 
-// type -> gerador. intensity ~0.5 a 2.0 escala o efeito. dir = [x,y].
+const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
+// quanto a moldura pode transladar num dado zoom sem amostrar fora da imagem
+const travelLimit = (z) => Math.max(0, 0.5 * (1 - 1 / Math.max(z, 1.0001)) - 0.008);
+
+// type -> gerador. intensity ~0.5 a 2.0 escala o efeito. dir = [x,y]. cam = spec bruto.
 const MOVES = {
   static: () => ({ offset: [0, 0], zoom: 1 }),
+
+  // ENQUADRAMENTO LIVRE: viaja de um enquadramento a outro ("mergulha no rosto").
+  // camera: { type: framing, from: {zoom, at:[x,y]}, to: {zoom, at:[x,y]} }
+  // at = ponto da IMAGEM (0..1) que fica no centro do quadro. Habilita 1 imagem → N shots.
+  framing: (p, k, dir, cam) => {
+    const F = cam?.from || { zoom: 1.0, at: [0.5, 0.5] };
+    const T = cam?.to || { zoom: 1.35, at: [0.5, 0.5] };
+    const z = (F.zoom ?? 1) + ((T.zoom ?? 1.35) - (F.zoom ?? 1)) * p;
+    const ax = (F.at?.[0] ?? 0.5) + ((T.at?.[0] ?? 0.5) - (F.at?.[0] ?? 0.5)) * p;
+    const ay = (F.at?.[1] ?? 0.5) + ((T.at?.[1] ?? 0.5) - (F.at?.[1] ?? 0.5)) * p;
+    const lim = travelLimit(z);
+    return { offset: [clamp(ax - 0.5, -lim, lim), clamp(ay - 0.5, -lim, lim)], zoom: z };
+  },
 
   // ---- recalibrados (amplitude de cinema, não de slideshow) ----
   push_in: (p, k) => ({ offset: [0, 0], zoom: 1 + 0.30 * k * p }),
@@ -159,7 +176,7 @@ export function cameraAt(progress, camera = {}) {
   const dir = DIRS[camera.direction] || DIRS.right;
   const p = easeFn(Math.min(Math.max(progress, 0), 1));
   const fn = MOVES[type] || MOVES.push_in;
-  const out = { rotate: 0, blur: 0, parallaxBoost: 1, ...fn(p, k, dir) };
+  const out = { rotate: 0, blur: 0, parallaxBoost: 1, ...fn(p, k, dir, camera) };
   const b = camera.breath ?? (type === 'static' ? 0.6 : 1.0);
   return breathe(out, Math.min(Math.max(progress, 0), 1), b);
 }

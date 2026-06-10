@@ -11,12 +11,29 @@ import { computeLayout } from './layout.js';
 const SceneWrapper = ({ scene }) => {
   const frame = useCurrentFrame();
   const f = scene.fadeInFrames;
-  let opacity = 1;
-  if (f > 0 && scene.transitionIn !== 'cut') {
-    opacity = interpolate(frame, [0, f], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+  const tIn = scene.transitionIn;
+  let opacity = 1, transform, filter;
+  if (f > 0 && tIn && tIn !== 'cut') {
+    const t = interpolate(frame, [0, f], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+    const ease = 1 - Math.pow(1 - t, 3); // expo-out: chega rápido, assenta suave
+    if (tIn === 'whip' || tIn === 'whip_left') {
+      // chicote: a cena nova varre por cima da anterior com motion blur
+      const dir = tIn === 'whip_left' ? -1 : 1;
+      transform = `translateX(${dir * (1 - ease) * 70}%)`;
+      filter = `blur(${(1 - ease) * 22}px)`;
+      opacity = Math.min(1, t * 4);
+    } else if (tIn === 'zoom_blur') {
+      // mergulho: a cena nova chega "caindo" de um zoom borrado
+      transform = `scale(${1.45 - 0.45 * ease})`;
+      filter = `blur(${(1 - ease) * 16}px)`;
+      opacity = Math.min(1, t * 4);
+    } else {
+      // crossfade / dip_to_black: fade simples (sem fundo — ver dica nº 2)
+      opacity = t;
+    }
   }
   return (
-    <AbsoluteFill style={{ opacity }}>
+    <AbsoluteFill style={{ opacity, transform, filter }}>
       <ParallaxCanvas
         image={scene.image}
         depth={scene.depth}
