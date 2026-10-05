@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
 <!-- Landing + guia do PixFlow. Padrao projetos-landing-guia (INEMA). Self-contained. -->
-<html lang="pt-BR">
+<html lang="es">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>PixFlow — imagem estática vira filme cinematográfico (sem IA de vídeo)</title>
-<meta content="Recria a qualidade do pixflow.net em código aberto: transforma imagens estáticas em vídeos cinematográficos (parallax 2.5D, grain, color grade, vinheta, bloom, câmera, transições) de forma determinística — sem geradores de vídeo por IA. Skill pixflow-motion: movie spec YAML → Depth-Anything → WebGL/GLSL → Remotion → FFmpeg → MP4." name="description"/>
+<title>PixFlow — una imagen estática se convierte en una película cinematográfica (sin IA de video)</title>
+<meta content="Recrea la calidad de pixflow.net en código abierto: transforma imágenes estáticas en videos cinematográficos (parallax 2.5D, grain, color grade, viñeta, bloom, cámara, transiciones) de forma determinística — sin generadores de video con IA. Skill pixflow-motion: movie spec YAML → Depth-Anything → WebGL/GLSL → Remotion → FFmpeg → MP4." name="description"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet"/>
@@ -90,18 +90,18 @@
   .pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:.3em .8em;font-size:.78rem;color:var(--mut);margin:0 4px}
 </style>
 <link href="https://inematds.github.io/pixflow/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/pixflow/en/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/pixflow/es/" hreflang="es" rel="alternate"/></head>
-<body><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="./" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="en/" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="es/" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<body><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../en/" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="./" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
 <nav><div class="wrap">
 <a class="brand" href="#top"><span class="emoji">🪄</span> PixFlow</a>
 <span class="sep">|</span>
 <a class="inema" href="https://inema.club" rel="noopener" target="_blank">INEMA.CLUB</a>
 <div class="links">
-<a class="sec" href="#oque">O que é</a>
-<a class="sec" href="#fluxo">Como funciona</a>
-<a class="sec" href="#guia">Guia de uso</a>
-<a class="sec" href="#exemplos">Looks &amp; limites</a>
+<a class="sec" href="#oque">Qué es</a>
+<a class="sec" href="#fluxo">Cómo funciona</a>
+<a class="sec" href="#guia">Guía de uso</a>
+<a class="sec" href="#exemplos">Looks y límites</a>
 <a class="sec" href="#roadmap">Roadmap</a>
-<button aria-label="Alternar tema" class="tgl" id="themeToggle" title="Alternar tema">🌙</button>
+<button aria-label="Cambiar tema" class="tgl" id="themeToggle" title="Cambiar tema">🌙</button>
 <a class="btn" href="https://github.com/inematds/pixflow" rel="noopener" target="_blank">GitHub</a>
 </div>
 </div></nav>
@@ -109,15 +109,15 @@
 <div class="glow"></div>
 <div class="wrap">
 <div>
-<span class="chip">Skill Claude Code · render em código aberto</span>
-<h1>Imagem estática vira <span class="amb">filme cinematográfico</span> — sem IA de vídeo</h1>
-<p class="lead">PixFlow recria a qualidade de efeitos do pixflow.net em código aberto: parallax 2.5D real, grain, color grade, vinheta, aberração cromática, bloom, movimentos de câmera e transições. Todo o movimento é construído programaticamente — render <strong>determinístico</strong>, sem Runway, Kling ou Sora.</p>
+<span class="chip">Skill de Claude Code · render en código abierto</span>
+<h1>Una imagen estática se convierte en <span class="amb">película cinematográfica</span> — sin IA de video</h1>
+<p class="lead">PixFlow recrea la calidad de los efectos de pixflow.net en código abierto: parallax 2.5D real, grain, color grade, viñeta, aberración cromática, bloom, movimientos de cámara y transiciones. Todo el movimiento se construye de forma programática: render <strong>determinístico</strong>, sin Runway, Kling o Sora.</p>
 <div class="cta">
-<a class="btn" href="#guia">Começar o guia</a>
-<a class="btn ghost" href="https://github.com/inematds/pixflow" rel="noopener" target="_blank">Ver no GitHub</a>
+<a class="btn" href="#guia">Empezar la guía</a>
+<a class="btn ghost" href="https://github.com/inematds/pixflow" rel="noopener" target="_blank">Ver en GitHub</a>
 </div>
 </div>
-<figure><pre><span class="c"># o pipeline (skill pixflow-motion)</span>
+<figure><pre><span class="c"># el pipeline (skill pixflow-motion)</span>
 movie spec (YAML)
  <span class="k">→</span> Depth-Anything-V2  (depth, sem torch)
  <span class="k">→</span> WebGL / GLSL       (parallax + efeitos)
@@ -125,24 +125,24 @@ movie spec (YAML)
  <span class="k">→</span> FFmpeg
  <span class="k">→</span> <span class="s">MP4</span>
 
-<span class="c"># render</span>
+<span class="c"># renderizar</span>
 <span class="k">node</span> cli/pixflow-motion.mjs render demo.movie.yaml demo.mp4</pre></figure>
 </div>
 </header>
 <section id="oque"><div class="wrap">
-<span class="chip">O que é</span>
-<h2>Movimento de verdade, sem alucinação</h2>
-<p class="sub">Geradores de vídeo por IA inventam pixels (e erros). O PixFlow faz o oposto: parte da sua imagem e a move com profundidade real, de forma reproduzível. v1: imagem → filme. v2: o mesmo motor aceita vídeo no lugar da foto.</p>
+<span class="chip">Qué es</span>
+<h2>Movimiento real, sin alucinaciones</h2>
+<p class="sub">Los generadores de video con IA inventan píxeles (y errores). PixFlow hace lo contrario: parte de tu imagen y la mueve con profundidad real, de forma reproducible. v1: imagen → película. v2: el mismo motor acepta video en lugar de la foto.</p>
 <div class="grid g3">
-<div class="card"><h3>🌌 Parallax 2.5D real</h3><p>Gera o depth map de cada imagem (Depth-Anything-V2, via transformers.js, sem torch) e separa as camadas com profundidade.</p></div>
-<div class="card"><h3>🎨 Look cinematográfico</h3><p>Color grade, grão, vinheta, aberração cromática e bloom — 6 looks prontos donos das intensidades.</p></div>
-<div class="card"><h3>⚙️ Determinístico e local</h3><p>WebGL/GLSL → Remotion → FFmpeg → MP4. Mesma entrada, mesmo vídeo. Sem chave de API.</p></div>
+<div class="card"><h3>🌌 Parallax 2.5D real</h3><p>Genera el mapa de profundidad de cada imagen (Depth-Anything-V2, mediante transformers.js, sin torch) y separa las capas según su profundidad.</p></div>
+<div class="card"><h3>🎨 Estilo cinematográfico</h3><p>Color grading, grano, viñeta, aberración cromática y bloom — 6 looks listos con intensidades propias.</p></div>
+<div class="card"><h3>⚙️ Determinístico y local</h3><p>WebGL/GLSL → Remotion → FFmpeg → MP4. Misma entrada, mismo video. Sin clave de API.</p></div>
 </div>
 </div></section>
 <section id="fluxo"><div class="wrap">
-<span class="chip">Como funciona</span>
-<h2>Do spec ao MP4</h2>
-<p class="sub">Você dá <strong>imagens + um "roteiro de movimento" (movie spec YAML)</strong> — cenas, textos, looks, câmeras, durações — e o motor monta o filme. Câmeras: push-in, pull-out, ken-burns, pan, dolly, orbit, float, handheld, static. Transições: cut, crossfade, dip-to-black.</p>
+<span class="chip">Cómo funciona</span>
+<h2>Del spec al MP4</h2>
+<p class="sub">Tú das <strong>imágenes + un «guion de movimiento» (movie spec YAML)</strong> — escenas, textos, estilos, cámaras, duraciones — y el motor arma la película. Cámaras: push-in, pull-out, ken-burns, pan, dolly, orbit, float, handheld, static. Transiciones: cut, crossfade, dip-to-black.</p>
 <div class="flow">
 <span>movie spec (YAML)</span><span class="arr">→</span>
 <span>Depth-Anything-V2</span><span class="arr">→</span>
@@ -153,57 +153,57 @@ movie spec (YAML)
 </div>
 </div></section>
 <section id="pre"><div class="wrap">
-<span class="chip">Pré-requisitos</span>
-<h2>O que precisa pra rodar</h2>
-<p class="sub">Testado em Linux aarch64 (NVIDIA GB10 / DGX). Nessa arquitetura a CLI reusa um Chromium do Playwright sozinha — ou defina <code>PIXFLOW_CHROME</code>.</p>
+<span class="chip">Requisitos previos</span>
+<h2>Qué necesitas para ejecutarlo</h2>
+<p class="sub">Probado en Linux aarch64 (NVIDIA GB10 / DGX). En esta arquitectura la CLI reutiliza por sí sola un Chromium de Playwright — o define <code>PIXFLOW_CHROME</code>.</p>
 <div class="grid g3">
-<div class="card"><h3>📦 Node + deps</h3><p>Instala o motor e a CLI <code>pixflow-motion</code>.</p><pre><span class="k">cd</span> skill &amp;&amp; <span class="k">npm install</span></pre></div>
-<div class="card"><h3>🧩 Chromium</h3><p>Remotion renderiza no Chrome headless. Em aarch64 a CLI resolve sozinha.</p><pre><span class="c"># ou: export PIXFLOW_CHROME=/path/chrome</span></pre></div>
-<div class="card"><h3>🖼️ Imagens + spec</h3><p>Você traz as imagens e o movie spec. O <code>render</code> não gera imagem nem roteiro.</p><pre><span class="c"># examples/demo.movie.yaml</span></pre></div>
+<div class="card"><h3>📦 Node + dependencias</h3><p>Instala el motor y la CLI <code>pixflow-motion</code>.</p><pre><span class="k">cd</span> skill &amp;&amp; <span class="k">npm install</span></pre></div>
+<div class="card"><h3>🧩 Chromium</h3><p>Remotion renderiza en Chrome headless. En aarch64 la CLI lo resuelve por sí sola.</p><pre><span class="c"># o: export PIXFLOW_CHROME=/path/chrome</span></pre></div>
+<div class="card"><h3>🖼️ Imágenes + especificaciones</h3><p>Tú aportas las imágenes y el movie spec. El <code>render</code> no genera imágenes ni guiones.</p><pre><span class="c"># examples/demo.movie.yaml</span></pre></div>
 </div>
 </div></section>
 <section id="guia"><div class="wrap">
-<span class="chip">Guia de uso · passo a passo</span>
-<h2>Do zero ao filme</h2>
-<p class="sub">Comandos reais da CLI <code>pixflow-motion</code>. O schema completo do movie spec está em <code>skill/SKILL.md</code>.</p>
+<span class="chip">Guía de uso · paso a paso</span>
+<h2>De cero a la película</h2>
+<p class="sub">Comandos reales de la CLI <code>pixflow-motion</code>. El esquema completo del movie spec está en <code>skill/SKILL.md</code>.</p>
 <div class="step"><div class="b">1</div><div>
-<h3>Instale as dependências</h3>
-<p>Uma vez, dentro da pasta da skill.</p>
+<h3>Instala las dependencias</h3>
+<p>Una vez, dentro de la carpeta de la skill.</p>
 <pre><span class="k">cd</span> skill &amp;&amp; <span class="k">npm install</span></pre>
 </div></div>
 <div class="step"><div class="b">2</div><div>
-<h3>Cheque o ambiente</h3>
-<p>Confirma depth, Chromium e FFmpeg antes de renderizar.</p>
+<h3>Revisa el entorno</h3>
+<p>Confirma depth, Chromium y FFmpeg antes de renderizar.</p>
 <pre><span class="k">node</span> cli/pixflow-motion.mjs check-deps</pre>
 </div></div>
 <div class="step"><div class="b">3</div><div>
-<h3>Escreva o movie spec (YAML)</h3>
-<p>Cenas com imagem, <code>look</code>, <code>camera</code>, duração, transição e <code>caption</code> (kicker/título/corpo).</p>
+<h3>Escribe el movie spec (YAML)</h3>
+<p>Escenas con imagen, <code>look</code>, <code>camera</code>, duración, transición y <code>caption</code> (kicker/título/cuerpo).</p>
 <pre><span class="c"># scene: { image, look: cinema-dramatico, camera: push_in, dur: 4 }</span></pre>
 </div></div>
 <div class="step"><div class="b">4</div><div>
-<h3>Renderize o MP4</h3>
-<p>Gera o depth, aplica parallax + look + transições e exporta via Remotion + FFmpeg.</p>
+<h3>Renderiza el MP4</h3>
+<p>Genera el depth, aplica paralaje + look + transiciones y exporta mediante Remotion + FFmpeg.</p>
 <pre><span class="k">node</span> cli/pixflow-motion.mjs render ../examples/demo.movie.yaml ../examples/demo.mp4</pre>
 </div></div>
 </div></section>
 <section id="exemplos"><div class="wrap">
-<span class="chip">Looks &amp; limites</span>
-<h2>A biblioteca — e a fronteira honesta</h2>
-<p class="sub">PixFlow é o <strong>estágio final de render</strong>, não a fábrica inteira. Saber o que ele faz (e o que não faz) é o que evita frustração.</p>
+<span class="chip">Looks y límites</span>
+<h2>La biblioteca — y el límite honesto</h2>
+<p class="sub">PixFlow es el <strong>etapa final de render</strong>, no toda la fábrica. Saber qué hace (y qué no hace) es lo que evita la frustración.</p>
 <div class="grid g2">
 <div class="card">
-<h3>🎨 Looks &amp; câmeras</h3>
+<h3>🎨 Estilos y cámaras</h3>
 <pre><span class="c"># 6 looks</span>
 cinema-dramatico · sci-fi-cyberpunk · noir-film
 retro-vhs · sonho-etereo · acao-epico
 
-<span class="c"># 9 câmeras</span>
+<span class="c"># 9 cámaras</span>
 push_in · pull_out · ken_burns · pan · dolly
 orbit · float · handheld · static</pre>
 </div>
 <div class="card">
-<h3>✅ Faz / ❌ não faz</h3>
+<h3>✅ Hace / ❌ no hace</h3>
 <pre><span class="s">✅</span> depth map + parallax 2.5D
 <span class="s">✅</span> look (grade/grão/vinheta/bloom) + transições
 <span class="s">✅</span> legenda (fade) + áudio se você apontar
@@ -211,18 +211,18 @@ orbit · float · handheld · static</pre>
 <span class="amb">❌</span> não gera as imagens (você traz)
 <span class="amb">❌</span> não escreve o roteiro/spec
 <span class="amb">❌</span> não tem narração/TTS</pre>
-<p style="margin-top:10px">Tudo que vem <em>antes</em> (ideia → roteiro → imagens → narração) é o que o <a href="https://inematds.github.io/skill-videoprodutor/">videoprodutor</a> orquestra.</p>
+<p style="margin-top:10px">Todo lo que viene <em>antes</em> (idea → guion → imágenes → narración) es lo que el <a href="https://inematds.github.io/skill-videoprodutor/">videoprodutor</a> orquesta.</p>
 </div>
 </div>
 </div></section>
 <section id="roadmap"><div class="wrap">
-<span class="chip">Roadmap · ecossistema</span>
-<h2>MVP funcional, e o que vem</h2>
-<p class="sub">PixFlow é a peça de <strong>render em código aberto</strong>. Complementa <a href="https://inematds.github.io/mdd/">mdd</a> (direção), <a href="https://inematds.github.io/skill-video-plan-editor/">video-plan-editor</a> (estratégia/beat sheet) e promptprof (refino de prompt).</p>
-<div class="phase"><div class="tag">✅ MVP</div><div class="d"><strong>Render ponta a ponta</strong><span>Depth + parallax 2.5D + 6 looks + 9 câmeras + 3 transições + legenda + áudio → MP4 determinístico.</span></div></div>
-<div class="phase"><div class="tag">⏳ Efeitos</div><div class="d"><strong>Transições GLSL + overlays</strong><span>Glitch, whip, zoom-blur, partículas e light leaks em overlay.</span></div></div>
-<div class="phase"><div class="tag">⏳ Cor</div><div class="d"><strong>LUT <code>.cube</code> + beat-sync</strong><span>Color grade por LUT e sincronia de cortes com a trilha.</span></div></div>
-<div class="phase"><div class="tag">⏳ Avançado</div><div class="d"><strong>Segmentação SAM2 + export OTIO</strong><span>Camadas por objeto e interoperação com NLEs.</span></div></div>
+<span class="chip">Roadmap · ecosistema</span>
+<h2>MVP funcional y lo que viene</h2>
+<p class="sub">PixFlow es la pieza de <strong>render en código abierto</strong>. Complementa <a href="https://inematds.github.io/mdd/">mdd</a> (dirección), <a href="https://inematds.github.io/skill-video-plan-editor/">video-plan-editor</a> (estrategia/beat sheet) y promptprof (refinamiento del prompt).</p>
+<div class="phase"><div class="tag">✅ MVP</div><div class="d"><strong>Render de punta a punta</strong><span>Depth + paralaje 2.5D + 6 looks + 9 cámaras + 3 transiciones + subtítulos + audio → MP4 determinista.</span></div></div>
+<div class="phase"><div class="tag">⏳ Efectos</div><div class="d"><strong>Transiciones GLSL + overlays</strong><span>Glitch, whip, zoom-blur, partículas y filtraciones de luz en overlay.</span></div></div>
+<div class="phase"><div class="tag">⏳ Color</div><div class="d"><strong>LUT <code>.cube</code> + sincronización con el beat</strong><span>Color grading con LUT y sincronización de cortes con la pista.</span></div></div>
+<div class="phase"><div class="tag">⏳ Avanzado</div><div class="d"><strong>Segmentación SAM2 + exportación OTIO</strong><span>Capas por objeto e interoperabilidad con NLEs.</span></div></div>
 </div></section>
 <footer>
 <div class="wrap">
